@@ -1,14 +1,18 @@
 const Employee = require("../models/Employee");
 
 exports.createEmployee = async (req, res) => {
+  
   try {
-     if (!Array.isArray(req.body.education) || req.body.education.length === 0) {
+    if (!Array.isArray(req.body.education) || req.body.education.length === 0) {
       return res.status(400).json({ error: "Education is required" });
     }
-     if (!Array.isArray(req.body.experience) || req.body.experience.length === 0) {
+    if (
+      !Array.isArray(req.body.experience) ||
+      req.body.experience.length === 0
+    ) {
       return res.status(400).json({ error: "Experience is required" });
     }
-     if (!Array.isArray(req.body.skills) || req.body.skills.length === 0) {
+    if (!Array.isArray(req.body.skills) || req.body.skills.length === 0) {
       return res.status(400).json({ error: "Skill is required" });
     }
     const employee = new Employee(req.body);
@@ -97,4 +101,18 @@ exports.addEducation = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+};
+
+exports.uploadFile = async (req, res) => {
+  if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+
+  res.status(200).json({
+    message: "Image uploaded successfully!",
+    file: {
+      filename: req.file.filename,
+      path: `/uploads/${req.file.filename}`,
+      mimetype: req.file.mimetype,
+      size: req.file.size,
+    },
+  });
 };

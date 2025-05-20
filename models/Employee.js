@@ -98,7 +98,7 @@ const employeeSchema = new mongoose.Schema({
   }],
   experience: [experienceSchema],
   education: [educationSchema],
-  profilePicture: String,
+  profilePicture: {String},
   documents: [{
     name: String,
     url: String,
